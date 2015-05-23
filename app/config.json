@@ -1,0 +1,13 @@
+{
+  "process": {
+    "nb-forks": "2",
+    "binding-port": "3000"
+  },
+  "log": {
+    "file": "access.log"
+  },
+  "cors": [
+    "http://localhost:8000",
+    "http://localhost:9000"
+  ]
+}

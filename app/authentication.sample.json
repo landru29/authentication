@@ -1,0 +1,9 @@
+{
+  "cookie": {
+    "secret": "my_secret"
+  },
+  "mongoose": {
+    "host": "localhost",
+    "name": "authentication"
+  }
+}
