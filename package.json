@@ -1,0 +1,19 @@
+{
+  "name": "authentication",
+  "version": "1.0.0",
+  "description": "Authentication server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:landru29/authentication.git"
+  },
+  "author": "Cyrille Meichel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/landru29/authentication/issues"
+  },
+  "homepage": "https://github.com/landru29/authentication"
+}
