@@ -5,6 +5,7 @@
   var https = require('https');
   var config = require('./app/config.json');
   var Server = require('./app/app');
+  var fs = require('fs');
 
   var log = function (message, level) {
     console.log((level ? level[0].toUpperCase() + ' ' : '  ') + (new Date()).toISOString() + '[' + process.pid + ']: > ' + message);
@@ -50,12 +51,22 @@
       case 'server':
         var application = new Server();
 
-        /* Binding */
-        var httpServer = http.createServer(application.app);
-        //var httpsServer = https.createServer(credentials, app);
-        var server = httpServer.listen(config.process['binding-port'], function () {
-          application.logger.info('Express server listening on port ' + server.address().port);
-        });
+        if (application.config.https) {
+          var options = {
+            key: fs.readFileSync(__dirname + '/certificate/key.pem'),
+            cert: fs.readFileSync(__dirname + '/certificate/key-cert.pem')
+          };
+          var httpsServer = https.createServer(options,application.app);
+          var server = httpsServer.listen(config.process['binding-port'], function () {
+            application.logger.info('Express server https listening on port ' + server.address().port);
+          });
+        } else {
+          /* Binding */
+          var httpServer = http.createServer(application.app);
+          var server = httpServer.listen(config.process['binding-port'], function () {
+            application.logger.info('Express server http listening on port ' + server.address().port);
+          });
+        }
         break;
       case 'deamon':
         var deamon = require('../app/deamon');

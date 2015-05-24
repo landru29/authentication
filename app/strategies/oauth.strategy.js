@@ -21,7 +21,6 @@ var Strategy = function (options, verify) {
   }
 
   this._refreshTokenField = options.refreshTokenField || 'refresh-token';
-  this._accessTokenField = options.accessTokenField || 'access-token';
   this._secretAccessToken = options.secretAccessToken || 'HTRvscgCGRVtvrsrbh';
   this._secretRefreshToken = options.secretRefreshToken || 'jlkexrh,dezopiepdr,fg,nvt';
   this._expiresInMinutes = options.expiresInMinutes || 30;
@@ -59,12 +58,12 @@ var decodeToken = function (token, secret) {
 Strategy.prototype.authenticate = function (req, options) {
   var self = this;
 
-  var done = function (user, token, type) {
+  var done = function (user, token) {
     try {
       if (self._passReqToCallback) {
-        this._verify(req, user, token, type, verified);
+        this._verify(req, user, token, verified);
       } else {
-        this._verify(user, token, type, verified);
+        this._verify(user, token, verified);
       }
     } catch (ex) {
       return self.error(ex);
@@ -73,22 +72,15 @@ Strategy.prototype.authenticate = function (req, options) {
 
   options = options || {};
   var accessToken = req.headers[this._refreshTokenField];
-  var refreshToken = req.headers[this._accessTokenField];
 
-  if (accessToken) {
-    decodeToken(accessToken, self._secretAccessToken).then(function (user) {
-      done(user, accessToken, 'access-token');
-    }, function (err) {
-      self.fail({ message: 'Invalid access-token'});
-    });
-  } else if (refreshToken) {
+  if (refreshToken) {
     decodeToken(refreshToken, self._secretRefreshToken).then(function (user) {
       var newAccessToken = jwt.sign(
         JSON.parse(JSON.stringify(user)),
         self._secretAccessToken, {
           expiresInMinutes: self._expiresInMinutes
         });
-      done(null, newAccessToken, 'refresh-token');
+      done(null, newAccessToken);
     }, function (err) {
       self.fail({ message: 'Invalid refresh-token'});
     });

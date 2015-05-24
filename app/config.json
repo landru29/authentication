@@ -1,4 +1,5 @@
 {
+  "https": true,
   "process": {
     "nb-forks": "2",
     "binding-port": "3000"

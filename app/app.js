@@ -12,7 +12,7 @@ var Server = function () {
 
   // Initialize database
   this.db = new require('./helpers/mongoose-connection.js')(this.config.mongoose);
-  this.models = new require('./helpers/model-loader.js')(this);
+  require('./helpers/model-loader.js')({folder: __dirname + '/models' }, this);
 
   // Initialize the API
   this.logger.info('** Initialize Express **');
@@ -21,6 +21,9 @@ var Server = function () {
   // Load middlewares
   this.app.use(require('cookie-parser')(this.config.cookie.secret));
   this.app.use(require('body-parser').json());
+
+  // Loading routes
+  require('./helpers/route-loader.js')({folder: __dirname + '/routes' }, this);
 
   // Express application is ready
   this.logger.info('** Express is ready **');

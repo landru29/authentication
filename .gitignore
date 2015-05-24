@@ -3,3 +3,4 @@ authentication.json
 build
 npm-debug.log
 node_modules
+certificate
