@@ -15,5 +15,8 @@
             "secret": "my access token refresh",
             "expire-in-minutes": 30
         }
+    },
+    "user": {
+        "passwordEncrypt":"secret"
     }
 }

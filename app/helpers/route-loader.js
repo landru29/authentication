@@ -4,11 +4,12 @@ module.exports = function (options, server, done) {
 
     server.logger.info(' * Loading routes');
     loader(options.folder, '/', function (file) {
-        var route = file.relativePath.match(/^([A-Z\/\-a-z]*)\.route\.js$/);
-        if (route) {
-            server.logger.info('    |-- Loading route ' + route[1]);
+        var routeMatcher = file.relativePath.match(/^([A-Z\/\-a-z]*)\.route\.js$/);
+        if (routeMatcher) {
+            var route = routeMatcher[1];
+            server.logger.info('    |-- Loading route ' + route);
             server.app.use(
-                route[1],
+                route,
                 require(file.completePath)(server)
             );
         }

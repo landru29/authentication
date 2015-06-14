@@ -61,7 +61,7 @@ module.exports = function (server) {
         },
         encrypt: function (data, encryptorName) {
             var defered = q.defer();
-            defered(encrypt(data, encryptorName));
+            defered.resolve(encrypt(data, encryptorName));
             return defered.promise;
         },
         decrypt: decrypt

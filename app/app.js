@@ -48,6 +48,9 @@ var Server = function () {
     }, this, function(){
         routeLoaderDefer.resolve();
         self.logger.info(' ** Routes are loaded **');
+        app.use(function(req, res){
+            res.send(404);
+        });
     });
 
     q.all(

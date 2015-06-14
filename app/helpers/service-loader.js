@@ -9,8 +9,8 @@ module.exports = function (options, server, done) {
         var pattern = file.relativePath.match(/^([A-Z\/\-a-z]*)\.service\.js$/);
         if (pattern) {
             var serviceName = _.capitalize(_.camelCase(pattern[1]))
-            server.logger.info('    |-- Loading service ' + pattern[1]);
-            server.models[serviceName] = require(file.completePath)(server);
+            server.logger.info('    |-- Loading service ' + serviceName);
+            server.services[serviceName] = require(file.completePath)(server);
         }
     }, done);
 };

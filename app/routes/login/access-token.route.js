@@ -7,7 +7,13 @@ var route = function(server) {
 
   router.get('/',
     function(req, res) {
-      res.send('hello');
+      var username = req.query.username;
+      var password = req.query.password;
+      server.services.User.getRefreshToken(username, password).then(function(data){
+          res.status(200).json(data);
+      }, function(err){
+          res.status(500).json(err);
+      });
     });
 
   return router;
